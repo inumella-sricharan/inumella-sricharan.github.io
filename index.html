@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Inumella Sricharan</title>
+  <style>
+    :root{
+      --white: #ffffff;
+      --black: #000000;
+      --text-light: #0f172a;
+      --text-dark: #f8fafc;
+      --transition-speed: 0.45s;
+      --glass-alpha: 0.32;
+      --card-alpha: 0.42;
+      --radius: 14px;
+      --max-width: 980px;
+      --accent: rgba(181,213,255,1);
+    }
+
+    /* Base */
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;transition: background var(--transition-speed), color var(--transition-speed);}
+    body.light{background:#e6f4ff;color:var(--text-light);}
+    body.dark{background:#07021a;color:var(--text-dark);}    
+
+    /* Page layout */
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:3rem 1rem 5rem;gap:3.5rem;transition: all var(--transition-speed);max-width:100%;position:relative}
+
+    /* Decorative blobs */
+    .bg-blobs{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;transition: all var(--transition-speed)}
+    .blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.95;will-change:transform;transition: all var(--transition-speed)}
+    .blob-primary{width:95vmax;height:95vmax;left:-15vmax;top:-30vmax}
+    .blob-accent{width:80vmax;height:80vmax;right:-20vmax;bottom:-25vmax}
+
+    body.light .blob-primary{background:radial-gradient(circle at 30% 30%, rgba(135,206,250,0.90) 0%, rgba(135,206,250,0.75) 30%, transparent 60%)}
+    body.light .blob-accent{background:radial-gradient(circle at 60% 40%, rgba(148,0,211,0.45) 0%, rgba(148,0,211,0.30) 30%, transparent 60%)}
+    body.dark .blob-primary{background:radial-gradient(circle at 30% 30%, rgba(148,0,211,0.92) 0%, rgba(106,90,205,0.85) 35%, transparent 60%)}
+    body.dark .blob-accent{background:radial-gradient(circle at 60% 40%, rgba(135,206,250,0.42) 0%, rgba(135,206,250,0.28) 30%, transparent 60%)}
+
+    body.light .blob-primary{animation: movePrimaryLight 6s ease-in-out infinite alternate}
+    body.light .blob-accent {animation: moveAccentLight 12s ease-in-out infinite alternate}
+    body.dark  .blob-primary{animation: movePrimaryDark 20s ease-in-out infinite alternate}
+    body.dark  .blob-accent {animation: moveAccentDark 40s ease-in-out infinite alternate}
+
+    @keyframes movePrimaryLight{0%{transform:translate(0,0) scale(1)}50%{transform:translate(12%,10%) scale(1.08)}100%{transform:translate(-10%,8%) scale(1)}}
+    @keyframes moveAccentLight {0%{transform:translate(0,0) scale(1)}50%{transform:translate(-8%,-10%) scale(1.12)}100%{transform:translate(6%,12%) scale(1)}}
+    @keyframes movePrimaryDark{0%{transform:translate(0,0) scale(1)}50%{transform:translate(18%,-12%) scale(1.1)}100%{transform:translate(-14%,14%) scale(1)}}
+    @keyframes moveAccentDark {0%{transform:translate(0,0) scale(1)}50%{transform:translate(-10%,8%) scale(1.15)}100%{transform:translate(8%,-6%) scale(1)}}
+
+    /* Sections — refined glass look, theme-aware */
+    .section{
+      width:100%;
+      max-width:var(--max-width);
+      border-radius:var(--radius);
+      padding:28px;
+      margin-top:2rem;
+      transition: all var(--transition-speed);
+      position:relative;
+      overflow:visible;
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Slightly different glass depending on theme for a richer look */
+    body.light .section{
+      background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.55));
+      color:var(--text-light);
+      border: 1px solid rgba(15,23,42,0.06);
+      box-shadow: 0 12px 40px rgba(6,12,30,0.06);
+    }
+    body.dark .section{
+      background: linear-gradient(180deg, rgba(8,6,18,var(--glass-alpha)), rgba(0,0,0,var(--glass-alpha)));
+      color:#ffffff;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 12px 40px rgba(2,6,23,0.18);
+    }
+
+    /* Section headings — subtle accent line and icon spacing */
+    .section h2{margin:0 0 1rem;font-size:1.5rem;display:inline-block;position:relative;padding-bottom:6px}
+    .section h2::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:6px;background:linear-gradient(90deg, rgba(181,213,255,0.14), rgba(148,0,211,0.12));transform:translateY(6px)}
+    .section p{margin:0;color:inherit;opacity:0.95}
+
+    /* Intro: make text bold and slightly more elegant */
+    .section.intro p{
+      font-weight:700; /* <-- bold as requested */
+      font-size:1.02rem;
+      line-height:1.55;
+      letter-spacing:0.15px;
+      color:inherit;
+      white-space:pre-line;
+    }
+
+    /* Header / profile */
+    header{display:flex;flex-direction:column;gap:12px;align-items:center;position:relative;width:100%;max-width:var(--max-width)}
+    .profile{
+      width:128px;height:128px;border-radius:999px;border:4px solid rgba(255,255,255,0.06);overflow:hidden;
+      display:flex;align-items:center;justify-content:center;font-size:46px;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
+      box-shadow:0 14px 40px rgba(2,6,23,0.15);transition: all var(--transition-speed)
+    }
+    .profile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+    body.light .profile{border-color: rgba(15,23,42,0.06); box-shadow:0 10px 30px rgba(6,12,30,0.06)}
+
+    h1{margin:8px 0;font-weight:700;letter-spacing:0.2px}
+    header p{margin:0;opacity:0.95;font-weight:600}
+
+    /* Toggle button — sleeker */
+    .toggle{
+      margin-top:6px;padding:.45rem .9rem;border-radius:12px;background:transparent;color:inherit;border:1px solid rgba(255,255,255,0.08);cursor:pointer;
+      font-weight:600;backdrop-filter: blur(6px);transition: transform .18s ease, background .25s, color .25s;
+      display:inline-flex;gap:8px;align-items:center;
+    }
+    .toggle:active{transform:translateY(2px)}
+    body.light .toggle{background: rgba(255,255,255,0.6); color:var(--text-light); border:1px solid rgba(15,23,42,0.06)}
+    body.dark .toggle{background: rgba(255,255,255,0.04); color:var(--text-dark)}
+
+    /* Social icons (top-right) */
+    .socials{
+      position:absolute;
+      top:18px;
+      right:22px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      z-index:60;
+    }
+    .socials a{
+      display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:10px;text-decoration:none;color:inherit;
+      transition: transform var(--transition-speed), background var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+      border:1px solid rgba(255,255,255,0.04);
+      backdrop-filter: blur(6px);
+    }
+    body.light .socials a{background: rgba(255,255,255,0.86)}
+    body.dark .socials a{background: rgba(255,255,255,0.03)}
+    .socials a svg{width:20px;height:20px;display:block}
+    .socials a:focus{outline:2px solid rgba(181,213,255,0.2);outline-offset:2px}
+    .socials a:hover{transform:translateY(-3px);color:var(--accent);box-shadow:0 8px 30px rgba(0,0,0,0.16)}
+
+    /* Projects grid & cards — nicer glass + hover */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem}
+    .card{
+      border-radius:12px;padding:18px;background:rgba(0,0,0,var(--card-alpha));color:#fff;display:flex;flex-direction:column;gap:10px;
+      transition: transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .32s, background var(--transition-speed);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.04);
+      min-height:120px;
+      box-sizing:border-box; /* ensure padding doesn't change width */
+      width:100%; /* make cards consistent and full-width inside their section */
+    }
+    body.light .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.66), rgba(255,255,255,0.54));
+      color:var(--text-light); border: 1px solid rgba(15,23,42,0.04);
+      box-shadow: 0 8px 24px rgba(10,18,40,0.04);
+    }
+    .card h3{margin:0;font-size:1.05rem;font-weight:700}
+    .card p{margin:0 0 6px;font-size:0.92rem;color:inherit;opacity:0.9}
+    .card a{align-self:flex-end;color:var(--accent);text-decoration:none;font-weight:700}
+    .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 20px 60px rgba(2,6,23,0.14), 0 0 50px rgba(181,213,255,0.08), inset 0 0 30px rgba(255,255,255,0.02)}
+
+    /* Make stacked cards in Talks & Certificates aligned and identical width */
+    .section .card + .card{margin-top:12px}
+
+    /* Responsive tweaks */
+    @media (max-width:720px){
+      .card{flex-direction:column;align-items:flex-start;padding:14px;min-height:auto}
+      .blob{filter:blur(100px)}
+      .wrap{padding:2rem 0 3.5rem;gap:2.25rem}
+      .section{padding:18px}
+      .profile{width:110px;height:110px;font-size:40px}
+      .projects-grid{gap:1rem}
+      .socials{top:10px;right:12px}
+      .socials a{width:40px;height:40px}
+    }
+  </style>
+</head>
+<body class="light">
+
+  <div class="bg-blobs">
+    <div class="blob blob-primary" aria-hidden="true"></div>
+    <div class="blob blob-accent" aria-hidden="true"></div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="profile">
+          <img src="assets/profile_pic.jpg" alt="Inumella Sricharan" />
+      </div>
+      <h1 style="margin:8px 0;">Inumella Sricharan</h1>
+      <p style="margin:0;opacity:0.95">Undergrad • Data Scientist • Researcher</p>
+      <button class="toggle" id="themeToggle">Toggle theme 🌗</button>
+    </header>
+
+    <!-- Social icons (top-right) -->
+    <div class="socials" aria-hidden="false">
+      <a href="https://github.com/inumella-sricharan" target="_blank" rel="noopener noreferrer" aria-label="GitHub — Inumella Sricharan" title="GitHub — Inumella Sricharan">
+        <!-- GitHub SVG (uses currentColor) -->
+        <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.66 7.66 0 018 4.77c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+      </a>
+
+      <a href="https://www.linkedin.com/in/inumella-sricharan/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn — Inumella Sricharan" title="LinkedIn — Inumella Sricharan">
+        <!-- LinkedIn SVG (uses currentColor) -->
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v11H0zM7.5 8h4.6v1.5h.1c.64-1.2 2.2-2.5 4.5-2.5 4.8 0 5.1 3.3 5.1 7.2V19H17v-3.4c0-2.1-.75-3.5-2.6-3.5-1.42 0-2.27.96-2.64 1.89-.14.34-.18.82-.18 1.3V19H7.5V8z"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Intro (marked with class "intro" so the bolding is scoped to this specific section) -->
+    <section class="section intro">
+  <h2>👋 Intro</h2>
+<p>
+  Hi, I’m Sricharan, a data enthusiast working at the intersection of machine learning, 
+  deep learning, and the fast-moving world of generative and agentic AI. At Accenture, 
+  I’ve built cancer cell segmentation pipelines for HCG and I'm currently prototyping LLM-based agents 
+  for Nestlé. Earlier, as a Data Scientist at DCB Bank, I worked on anomaly detection 
+  for anti-money laundering, built in-house GenAI apps like chatbots and multilingual 
+  sentiment analysis, handled compliance-driven data analysis, and also got the opportunity 
+  to mentor two interns exploring GenAI use cases for banking.  
+</p>
+
+<p>
+  My journey started with a Bachelors in Computer Science from PES University, where I 
+  explored nature-inspired algorithms and computer vision. At BlockAppsAI, I gained 
+  research-driven experience in medical imaging (cell nuclei, thyroid nodules, cervical 
+  cytology), explainable AI, and CNN architectures, connecting academic ideas with 
+  real-world problems.  
+</p>
+
+<p>
+  Outside work, I love experimenting, whether it’s side projects with graphs or Bayesian 
+  stats, trying out new recipes, or tinkering with models. I also follow Formula One, 
+  not just for the cars but for how drivers and teams share their thoughts and experiences during races and the way they handle each situation. While I have a favorite, I admire and 
+  learn from everyone on the grid.  
+</p>
+
+<p>
+  Right now, I’m focused on making AI systems more practical, interpretable, and scalable.
+</p>
+</section>
+
+
+    <section class="section">
+      <h2>💻 Projects</h2>
+      <div class="projects-grid">
+        <div class="card">
+          <h3>Enron POI Detection</h3>
+          <p>Applied machine learning on the Enron dataset to detect persons of interest, exploring anomaly detection on graph structures.</p>
+          <a href="https://github.com/inumella-sricharan/Enron-POI-detection" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+        <div class="card">
+          <h3>PPI Prediction Project</h3>
+          <p>Predicted protein-protein interactions using graph embeddings and machine learning models to gain insights into biological networks.</p>
+          <a href="https://github.com/inumella-sricharan/PPI-prediction-in-saccharomyces-cerevisiae" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+        <div class="card">
+          <h3>Bayesian Credit Estimation</h3>
+          <p>Built a Bayesian model to estimate credit scores with uncertainty quantification, enabling more robust financial decision-making.</p>
+          <a href="https://github.com/inumella-sricharan/Bayesian-Estimation-Of-Credit-Scores" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+        <div class="card">
+          <h3>PageRank on Massive Graphs</h3>
+          <p>Implemented PageRank suitable for large-scale graphs with sparse matrix operations.</p>
+          <a href="https://github.com/inumella-sricharan/pagerank-on-massive-graphs" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+        <div class="card">
+          <h3>Network Insights with Gephi</h3>
+          <p>Used Gephi to visualize and analyze networks, uncovering communities, influential nodes, and hidden structures.</p>
+          <a href="https://github.com/inumella-sricharan/network-insights-with-gephi" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+        <div class="card">
+          <h3>Big-Basket Recommender System</h3>
+          <p>Designed a content based recommender system for Big-Basket and a XGBoost model to detect scope of pricing.</p>
+          <a href="https://github.com/inumella-sricharan/BigBasket-rec-sys-pricing-detection" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎤 Talks</h2>
+      <div class="card">
+        <h3>AI Tinkerers Mumbai : Enron POI Detection</h3>
+        <p>Presented insights and learnings from the Enron POI detection project at the AI Tinkerers community meetup.</p>
+        <a href="https://mumbai.aitinkerers.org/talks/rsvp_3L05_2F28Jo">Details ↗</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎓 Certificates</h2>
+      <div class="card">
+        <h3>PESU I/O Distinction : Nature of Code</h3>
+        <p>Awarded distinction for completing the Nature of Code course exploring algorithms inspired by natural phenomena.</p>
+        <a href="https://drive.google.com/file/d/1T4LIhCd20uPL2Sx76ItVeMm7w3Yd2MYD/view?usp=drive_link" target="_blank">View Certificate ↗</a>
+      </div>
+      <div class="card">
+        <h3>Evaluator : IDEA Hackathon</h3>
+        <p>Recognized for assessing AI/ML solutions in fraud detection and customer experience enhancement in banking systems. Evaluated 15+ student projects for technical rigor and feasibility</p>
+        <a href="https://drive.google.com/file/d/1zlNvU4DaYNWPrGh9pPb8SLTcc-ACf0LY/view?usp=drive_link" target="_blank">View Certificate ↗</a>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const root = document.body;
+    toggle.addEventListener('click', ()=>{
+      if(root.classList.contains('light')){
+        root.classList.replace('light','dark');
+      } else {
+        root.classList.replace('dark','light');
+      }
+    });
+  </script>
+</body>
+</html>
